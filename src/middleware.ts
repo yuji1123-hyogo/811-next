@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyToken } from "./lib/jwt";
 
+// middlewareを適用しないパス
 function isPublicPath(pathname: string): boolean {
   const publicPaths = ["login", "/api/auth"];
   const staticPaths = ["/_next", "/favicon.ico", "/api/health"];
@@ -12,12 +13,11 @@ function isPublicPath(pathname: string): boolean {
 
 function redirectToLogin(request: NextRequest): NextResponse {
   const loginUrl = new URL("/login", request.url);
-  loginUrl.searchParams.set("callbackUrl", request.nextUrl.pathname);
-
   return NextResponse.redirect(loginUrl);
 }
 
-export async function middleweare(request: NextRequest) {
+export async function middleware(request: NextRequest) {
+  console.log("📡 middleware実行開始");
   const { pathname } = request.nextUrl;
 
   if (isPublicPath(pathname)) {
@@ -50,5 +50,7 @@ export async function middleweare(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api/auth|_next/static|_next/image|favicon.ico|login).*)"],
+  matcher: [
+    "/((?!api/auth|_next/static|_next/image|favicon.ico|login|dashboard).*)",
+  ],
 };

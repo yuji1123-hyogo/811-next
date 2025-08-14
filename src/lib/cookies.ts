@@ -31,7 +31,6 @@ export async function getCookie(): Promise<string | undefined> {
 }
 
 export async function setCookie(token: string): Promise<void> {
-  "use-server";
   const config = getCookieConfig();
   (await cookies()).set("token", token, config);
 }

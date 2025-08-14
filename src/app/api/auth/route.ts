@@ -14,6 +14,7 @@ const USERS = [
  * POST /api/auth
  */
 export async function POST(request: NextRequest) {
+  console.log("📡API AUTH/POST 実行開始");
   try {
     const { email, password } = await request.json();
 
@@ -30,6 +31,8 @@ export async function POST(request: NextRequest) {
       (u) => u.email === email && u.password === password
     );
 
+    console.log("☑API AUTH/POST user", user);
+
     if (!user) {
       // セキュリティ: 具体的な失敗理由は明かさない
       return NextResponse.json(
@@ -44,6 +47,7 @@ export async function POST(request: NextRequest) {
       email: user.email,
     });
 
+    console.log("☑API AUTH/POST token", token);
     // レスポンス作成
     const response = NextResponse.json({
       success: true,
@@ -53,9 +57,12 @@ export async function POST(request: NextRequest) {
     // セキュアなCookieとしてJWTを設定
     setCookie(token);
 
+    console.log("☑API AUTH/POST user", response);
+
     return response;
   } catch (error) {
-    console.error("Login error:", error);
+    console.log("🙅API AUTH/POSTで例外が発生しました", error);
+
     return NextResponse.json(
       { error: "サーバーエラーが発生しました" },
       { status: 500 }
