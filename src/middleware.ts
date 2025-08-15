@@ -11,6 +11,7 @@ function isPublicPath(pathname: string): boolean {
   );
 }
 
+// 未認証の場合ログインページへリダイレクト
 function redirectToLogin(request: NextRequest): NextResponse {
   const loginUrl = new URL("/login", request.url);
   return NextResponse.redirect(loginUrl);
@@ -18,8 +19,10 @@ function redirectToLogin(request: NextRequest): NextResponse {
 
 export async function middleware(request: NextRequest) {
   console.log("📡 middleware実行開始");
-  const { pathname } = request.nextUrl;
 
+
+  // 保護されていないページの場合認証チェックを行わない
+  const { pathname } = request.nextUrl;
   if (isPublicPath(pathname)) {
     return NextResponse.next();
   }
@@ -38,6 +41,7 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
+  // ペイロードから必要なユーザー情報の取得をミドルウェアで行う。
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("X-User-ID", payload.userId.toString());
   requestHeaders.set("X-User-Email", payload.email);

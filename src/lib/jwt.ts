@@ -12,6 +12,7 @@ const EXPIRES_IN = "24h";
 const ALGORITHM = "HS256";
 
 // トークンの生成
+//ヘッダー、ペイロード、秘密鍵を使ってトークンを生成
 export async function generateToken(payload: {
   userId: string;
   email: string;

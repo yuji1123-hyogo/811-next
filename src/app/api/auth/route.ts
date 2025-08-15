@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
       user: { userId: user.id, email: user.email },
     });
 
-    // セキュアなCookieとしてJWTを設定
+    // cookieにJWTをセット
     setCookie(token);
 
     console.log("☑API AUTH/POST user", response);

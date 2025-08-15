@@ -20,13 +20,14 @@ export function getCookieConfig(): CookieConfig {
     httpOnly: true,
     secure: isProduction,
     sameSite: isProduction ? "strict" : "lax",
-    maxAge: 365 * 24 * 60 * 60,
+    maxAge: 365 * 24 * 60 * 60, //maxAgeを指定しないとブラウザ終了時に破棄されるセッションクッキーとなる
   };
 }
 
 // cookieを取得
-// 解答にはセッションクッキーと書かれているが実際は永続クッキー
+// 解答にはセッションクッキーと書かれているが実際は永続クッキー(maxAgeの指定があるため)
 export async function getCookie(): Promise<string | undefined> {
+  //next.jsのcookies()メソッドを使ってクッキーを操作する
   return (await cookies()).get("token")?.value;
 }
 
