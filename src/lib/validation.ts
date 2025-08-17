@@ -2,8 +2,11 @@ import z from "zod";
 
 // タスクの基本バリデーションスキーマ
 export const TaskSchema = z.object({
-  id: z.string(),
-  title: z.string(),
+  id: z.string().uuid(),
+  title: z
+    .string()
+    .min(1, "タイトルは必須です")
+    .max(100, "タイトルは100文字以内で入力してください"),
   description: z.string().optional(),
   priority: z.enum(["low", "medium", "high"], {
     errorMap: () => ({ message: "優先度を選択してください" }),

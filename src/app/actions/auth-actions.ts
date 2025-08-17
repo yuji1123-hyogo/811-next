@@ -46,5 +46,5 @@ export async function loginAction(
     return { error: "ネットワークエラーが発生しました", success: false };
   }
 
-  redirect("/dashboard");
+  redirect("/tasks");
 }

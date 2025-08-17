@@ -1,7 +1,7 @@
 // 認証用の簡易DBとAPI
 import { NextRequest, NextResponse } from "next/server";
 import { generateToken, getCurrentUser } from "@/lib/jwt";
-import { deleteCookie, getCookie, setCookie } from "@/lib/cookies";
+import { getCookie } from "@/lib/cookies";
 
 // 簡易ユーザーデータベース（実際の開発ではデータベース使用）
 const USERS = [
@@ -55,7 +55,11 @@ export async function POST(request: NextRequest) {
     });
 
     // cookieにJWTをセット
-    setCookie(token);
+    response.cookies.set("token", token, {
+      httpOnly: true,
+      sameSite: "strict",
+      maxAge: 24 * 60 * 60, // 24時間
+    });
 
     console.log("☑API AUTH/POST user", response);
 
@@ -108,12 +112,19 @@ export async function GET() {
 export async function DELETE() {
   try {
     // JWTはサーバー側で無効化できないため、Cookieを削除
-    deleteCookie();
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       message: "ログアウトしました",
     });
+
+    response.cookies.set("token", "", {
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: 0, // 即座に期限切れにする
+    });
+
+    return response;
   } catch (error) {
     console.error("Logout error:", error);
     return NextResponse.json(

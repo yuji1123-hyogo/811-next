@@ -20,7 +20,6 @@ function redirectToLogin(request: NextRequest): NextResponse {
 export async function middleware(request: NextRequest) {
   console.log("📡 middleware実行開始");
 
-
   // 保護されていないページの場合認証チェックを行わない
   const { pathname } = request.nextUrl;
   if (isPublicPath(pathname)) {
@@ -55,6 +54,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!api/auth|_next/static|_next/image|favicon.ico|login|dashboard).*)",
+    "/((?!api/auth|_next/static|_next/image|favicon.ico|login|dashboard|tasks).*)",
   ],
 };
