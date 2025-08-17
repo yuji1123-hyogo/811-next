@@ -36,7 +36,7 @@ export async function createTask(
       title: formData.get("title") as string,
       description: formData.get("description") as string,
       priority: formData.get("priority") as string,
-      status: formData.get("priority") as string,
+      status: formData.get("status") as string,
     };
     // CreateTaskSchemaでバリデーション
     const validation = validateFormData(CreateTaskSchema, rawData);
@@ -51,7 +51,7 @@ export async function createTask(
     }
 
     // バリデーション成功時はtasks配列に追加
-    const newTask = {
+    const newTask: Task = {
       id: crypto.randomUUID(),
       ...validation.data,
     };

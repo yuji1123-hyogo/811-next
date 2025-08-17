@@ -8,7 +8,7 @@ export const TaskSchema = z.object({
   priority: z.enum(["low", "medium", "high"], {
     errorMap: () => ({ message: "優先度を選択してください" }),
   }),
-  status: z.enum(["todo", "in-progress", "completes"], {
+  status: z.enum(["todo", "in-progress", "completed"], {
     errorMap: () => ({ message: "ステータスを選択してください" }),
   }),
 });
