@@ -3,6 +3,8 @@ import TaskForm from "@/components/TaskForm";
 import TaskList from "@/components/TaskList";
 
 export default async function TasksPage() {
+    // サーバーコンポーネントのデータフェッチでは通常例外処理をおこなわない
+    // error.tsxにゆだねる
   const tasks = await getTasks();
 
   return (
